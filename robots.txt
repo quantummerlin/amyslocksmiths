@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://amyslocksmith.quantummerlin.com/sitemap.xml
