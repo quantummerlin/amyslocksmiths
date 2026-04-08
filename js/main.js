@@ -94,7 +94,7 @@ if ('IntersectionObserver' in window && counterEls.length) {
   counterEls.forEach(el => cio.observe(el));
 }
 
-// ── Booking Form ──────────────────────────────
+// ── Booking Form → SMS ───────────────────────
 const bookingForm = document.getElementById('bookingForm');
 bookingForm?.addEventListener('submit', e => {
   e.preventDefault();
@@ -110,18 +110,36 @@ bookingForm?.addEventListener('submit', e => {
     return;
   }
 
+  const urgency = data.urgency || 'Not specified';
+  const service = data.service || 'Not specified';
+  const suburb  = data.suburb?.trim()  || 'Not provided';
+  const details = data.details?.trim();
+
+  const lines = [
+    `Hi Amy/Simon, callback request from ${data.name.trim()}.`,
+    `Phone: ${data.phone.trim()}`,
+    `Service: ${service}`,
+    `Urgency: ${urgency}`,
+    `Location: ${suburb}`
+  ];
+  if (details) lines.push(`Notes: ${details}`);
+
+  // Open native Messages app with pre-filled text
+  window.location.href = `sms:+61415676888?body=${encodeURIComponent(lines.join('\n'))}`;
+
+  // Update button + show fallback message
   const btn = bookingForm.querySelector('[type="submit"]');
   if (btn) {
-    btn.textContent = '✓ Request Sent — We\'ll Call You Soon!';
-    btn.disabled    = true;
-    btn.style.background = '#16a34a';
+    btn.innerHTML = '<i class="fa-solid fa-check"></i> Opening Messages App…';
+    btn.disabled  = true;
+    btn.style.background  = '#16a34a';
     btn.style.borderColor = '#16a34a';
   }
   document.querySelector('.form-msg')?.remove();
   const el = document.createElement('p');
   el.className   = 'form-msg';
   el.style.cssText = 'color:#166534;font-size:.875rem;margin-top:12px;padding:12px;background:#dcfce7;border-radius:8px;text-align:center;';
-  el.innerHTML = '&#10003; Thanks! We\'ve received your request and will call you shortly.<br><strong>For urgent jobs, please call <a href="tel:0415676888" style="color:#166534">0415 676 888</a> directly.</strong>';
+  el.innerHTML = '&#10003; Your Messages app should open with the request pre-filled — just tap <strong>Send</strong>.<br><span style="color:#6b7280;font-size:.8rem;">On desktop or not working? Call <a href="tel:0415676888" style="color:#166534;font-weight:600;">0415 676 888</a> directly.</span>';
   bookingForm.insertAdjacentElement('afterend', el);
 });
 

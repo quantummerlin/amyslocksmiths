@@ -38,8 +38,9 @@
 
 /* ── Reset ─────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html  { scroll-behavior: smooth; font-size: 16px; }
+html  { scroll-behavior: smooth; font-size: 16px; overflow-x: hidden; }
 body  { font-family: var(--font-body); color: var(--text); background: var(--white); line-height: 1.6; overflow-x: hidden; }
+h1,h2,h3 { overflow-wrap: break-word; }
 img   { max-width: 100%; height: auto; display: block; }
 a     { text-decoration: none; color: inherit; transition: var(--ease); }
 ul    { list-style: none; }
@@ -178,7 +179,8 @@ p:last-child { margin-bottom: 0; }
 .hero-bg {
   position:absolute; inset:0;
   background-image:url('../amy%26simon.png');
-  background-size:cover; background-position:center top; background-attachment:fixed;
+  background-size:cover; background-position:center top;
+  will-change:transform;
 }
 .hero-bg::after {
   content:''; position:absolute; inset:0;
@@ -507,6 +509,20 @@ select.form-control { background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
   .ratings-summary { flex-direction:column; align-items:center; gap:8px; }
   .about-stats   { gap:8px; }
   .stat-number   { font-size:1.6rem; }
+  /* Mobile centering */
+  .hero-content  { text-align:center; }
+  .hero-actions  { justify-content:center; }
+  .hero-trust    { justify-content:center; }
+  .hero-rating   { justify-content:center; }
+  .hero-timing   { justify-content:center; }
+  .divider-left  { margin:16px auto; }
+  .page-hero .container { text-align:center; }
+  .page-hero > .container > p { margin-left:auto; margin-right:auto; }
+  .breadcrumb    { justify-content:center; }
+  .section-header h2, .section-header p { text-align:center; }
+  .service-body h2, .service-body > p { text-align:center; }
+  .service-feature { text-align:left; }
+  .checkmark-list { text-align:left; }
 }
 @media (max-width:480px) {
   .hero-actions  { flex-direction:column; align-items:stretch; }
